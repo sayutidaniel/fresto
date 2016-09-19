@@ -1,0 +1,13 @@
+.container {
+  background: #fff;
+  border-bottom: 1px solid #dadada;
+  padding: 16px;
+}
+
+.formGroup {
+  margin: 0;
+}
+
+.formGroup + .formGroup {
+  margin-top: 16px;
+}

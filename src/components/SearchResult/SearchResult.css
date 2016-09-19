@@ -1,0 +1,10 @@
+.searchResultInfo {
+  background: #f6f6f6;
+  border-bottom: 1px solid #dadada;
+  font-size: 12px;
+  padding: 8px 16px;
+}
+
+.pagination {
+  padding: 16px;
+}

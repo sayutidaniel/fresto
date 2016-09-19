@@ -1,0 +1,17 @@
+.nav {
+  background: #fff;
+  border-bottom: 1px solid #dadada;
+  z-index: 1000;
+}
+
+.iconBar {
+  background: #fb8b34;
+}
+
+.brand {
+  font-weight: 700;
+}
+
+.searchBarContainer {
+  line-height: 50px;
+}

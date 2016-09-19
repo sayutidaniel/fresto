@@ -1,0 +1,6 @@
+{
+  "verbose": false,
+  "watch": [
+    "lib/server.js"
+  ]
+}

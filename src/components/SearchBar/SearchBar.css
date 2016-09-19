@@ -1,0 +1,19 @@
+.buttonSearch {
+  transition: .2s background ease, .2s border-color ease, .2s color ease;
+}
+
+.buttonSearch,
+.buttonSearch:active,
+.buttonSearch:active:hover,
+.buttonSearch:active:focus,
+.buttonSearch:focus {
+  background: #f96d01;
+  border-color: #f96d01;
+  color: #fff;
+}
+
+.buttonSearch:hover {
+  background: #fff;
+  border-color: #f96d01;
+  color: #f96d01;
+}

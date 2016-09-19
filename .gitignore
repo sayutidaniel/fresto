@@ -1,0 +1,6 @@
+.idea/
+lib/
+log/
+node_modules/
+config/*
+!default.json

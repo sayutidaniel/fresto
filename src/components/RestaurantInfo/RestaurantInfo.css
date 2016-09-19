@@ -1,0 +1,82 @@
+.container {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.sectionLeft,
+.sectionRight {
+  text-align: center;
+}
+
+.sectionRight {
+  margin-bottom: 8px;
+}
+
+@media (min-width: 992px) {
+  .container {
+    margin-top: 32px;
+    margin-bottom: 32px;
+  }
+
+  .sectionRight {
+    min-height: 256px;
+    padding-bottom: 32px;
+    text-align: left;
+  }
+}
+
+.thumbnail {
+  display: inline-block;
+  margin-bottom: 0;
+  width: 250px;
+  height: 250px;
+}
+
+.smallRating {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.smallRating > img {
+  margin-bottom: 4px;
+  width: 100px;
+}
+
+.smallReview {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.businessName {
+  color: #F96D01;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.categories {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.address {
+  color: #8f8f8f;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.rating {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.rating > img {
+  width: 150px;
+}
+
+.phone {
+  color: #333;
+  font-size: 14px;
+}

@@ -1,0 +1,29 @@
+.pageButton {
+  border-radius: 3px;
+  color: #fb8b34;
+  cursor: pointer;
+  display: inline-block;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  width: 24px;
+  transition: .3s color ease;
+}
+
+.pageButton:hover {
+  color: #f86000;
+}
+
+.pageButton + .pageButton {
+  margin-left: 16px;
+}
+
+.active {
+  background-color: #f86000;
+  color: #fff;
+  cursor: default;
+}
+
+.active:hover {
+  color: #fff;
+}

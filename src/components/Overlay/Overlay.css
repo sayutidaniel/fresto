@@ -1,0 +1,27 @@
+.enter {
+  opacity: 0.01;
+}
+
+.enterActive {
+  opacity: .6;
+  transition: .3s opacity ease;
+}
+
+.leave {
+  opacity: .6;
+}
+
+.leaveActive {
+  opacity: 0.01;
+  transition: .2s opacity ease;
+}
+
+.overlay {
+  background: #fff;
+  bottom: 0;
+  left: 0;
+  opacity: .6;
+  position: absolute;
+  right: 0;
+  top: 0;
+}

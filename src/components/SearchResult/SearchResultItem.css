@@ -1,0 +1,67 @@
+.container {
+  background: #fff;
+  display: block;
+  min-height: 132px;
+  padding: 16px 16px 16px 132px;
+  transition: .3s background ease;
+}
+
+.container:focus,
+.container:hover {
+  background: #F6F6F6;
+}
+
+.container::after {
+  content: '';
+  background-color: #dadada;
+  bottom: 0;
+  display: block;
+  height: 1px;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  transform: scaleY(0.5);
+}
+
+.sectionRight {
+  padding-bottom: 32px;
+}
+
+.businessPhoto {
+  left: 16px;
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  top: 16px;
+}
+
+.businessName {
+  color: #F96D01;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.address {
+  color: #8f8f8f;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.phone {
+  font-size: 12px;
+  color: #333;
+}
+
+.categories {
+  color: #8f8f8f;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.rating {
+  bottom: 16px;
+  color: #333;
+  font-size: 12px;
+  position: absolute;
+}

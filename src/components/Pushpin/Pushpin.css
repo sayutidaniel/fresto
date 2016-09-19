@@ -1,0 +1,9 @@
+.pinned {
+  position: fixed;
+  z-index: 999;
+  transition: .3s width ease, .3s left ease;
+}
+
+.placeholder {
+  visibility: hidden;
+}

@@ -1,0 +1,57 @@
+.container {
+  background: #fff;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.06);
+  padding: 24px 24px 24px 148px;
+  min-height: 132px;
+  position: relative;
+}
+
+.container + .container::before {
+  background-color: #dadada;
+  content: '';
+  display: block;
+  height: 1px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: scaleY(0.5);
+}
+
+.userPhoto {
+  border-radius: 50%;
+  left: 24px;
+  position: absolute;
+  top: 24px;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.timeCreated {
+  color: #b4b4b4;
+  display: block;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.rating {
+  background: #F86000;
+  border-radius: 3px;
+  color: #fff;
+  padding: 0 8px;
+  position: absolute;
+  right: 24px;
+  top: 24px;
+}
+
+.ratingScore {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.maxScore {
+  font-size: 12px;
+}
