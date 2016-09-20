@@ -3,6 +3,12 @@ import { connect } from 'react-redux';
 import RestaurantInfo from '../components/RestaurantInfo/RestaurantInfo';
 
 class RestaurantInfoContainer extends React.Component {
+  static get propTypes() {
+    return {
+      restaurant: React.PropTypes.object,
+    };
+  }
+
   render() {
     return (
       <RestaurantInfo {...this.props.restaurant} />
@@ -10,8 +16,6 @@ class RestaurantInfoContainer extends React.Component {
   }
 }
 
-export default connect((state) => {
-  return {
-    restaurant: state.restaurant.item,
-  };
-})(RestaurantInfoContainer);
+export default connect(state => ({
+  restaurant: state.restaurant.item,
+}))(RestaurantInfoContainer);

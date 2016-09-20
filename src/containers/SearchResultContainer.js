@@ -9,8 +9,10 @@ import SearchResult from '../components/SearchResult/SearchResult';
 class SearchResultContainer extends React.Component {
   static get propTypes() {
     return {
+      isFetching: React.PropTypes.bool,
       items: React.PropTypes.array,
-      query: React.PropTypes.object,
+      query: React.PropTypes.objectOf(React.PropTypes.string),
+      router: React.PropTypes.object,
       total: React.PropTypes.number,
     };
   }
@@ -18,7 +20,7 @@ class SearchResultContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: parseInt(props.query.page) || 1,
+      page: parseInt(props.query.page, 10) || 1,
     };
     this.handlePageChange = this.handlePageChange.bind(this);
   }
@@ -51,10 +53,8 @@ class SearchResultContainer extends React.Component {
   }
 }
 
-export default withRouter(connect((state) => {
-  return {
-    isFetching: state.search.isFetching,
-    items: state.search.items,
-    total: state.search.total,
-  };
-})(SearchResultContainer));
+export default withRouter(connect(state => ({
+  isFetching: state.search.isFetching,
+  items: state.search.items,
+  total: state.search.total,
+}))(SearchResultContainer));

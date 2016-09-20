@@ -41,9 +41,9 @@ function fetchSearch(term, location, filter) {
       sort: filter.sort,
       term,
     };
-    
+
     return get('search', qs.stringify(params))
-      .then((json) => dispatch(receiveSearch(json)))
+      .then(json => dispatch(receiveSearch(json)))
       .catch(() => dispatch(resetSearch()));
   };
 }
@@ -57,7 +57,7 @@ export function search(term, location, filter = { page: 1, sort: 0 }) {
     if (shouldFetchSearch(getState())) {
       return dispatch(fetchSearch(term, location, filter));
     }
-    
+
     return Promise.resolve();
   };
 }

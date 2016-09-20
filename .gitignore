@@ -4,3 +4,4 @@ log/
 node_modules/
 config/*
 !default.json
+npm-debug.log

@@ -3,6 +3,13 @@ import { withRouter } from 'react-router';
 import SearchBar from '../components/SearchBar/SearchBar';
 
 class SearchBarContainer extends React.Component {
+  static get propTypes() {
+    return {
+      query: React.PropTypes.objectOf(React.PropTypes.string),
+      router: React.PropTypes.object,
+    };
+  }
+
   constructor(props) {
     super(props);
     this.handleSearch = this.handleSearch.bind(this);

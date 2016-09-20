@@ -5,14 +5,17 @@ import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 class Tooltip extends React.Component {
   static get propTypes() {
     return {
+      /**
+       * Set direction the `Tooltip` is positioned towards
+       */
       placement: React.PropTypes.oneOf([
         'bottom',
         'left',
         'right',
         'up',
-      ]).isRequired
+      ]).isRequired,
     };
-  };
+  }
 
   constructor(props) {
     super(props);

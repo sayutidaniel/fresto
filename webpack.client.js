@@ -59,7 +59,7 @@ module.exports = {
     loaders: [
       {
         test: /\.css$/,
-        loader: env === 'development' ? 'style!css?modules&sourceMap&localIdentName=[name]---[local]---[hash:base64:5]': ExtractTextPlugin.extract('style', 'css?minimize&modules'),
+        loader: env === 'development' ? 'style!css?modules&sourceMap&localIdentName=[name]---[local]---[hash:base64:5]!postcss': ExtractTextPlugin.extract('style', 'css?minimize&modules!postcss'),
       },
       {
         test: /\.js$/,
@@ -75,6 +75,9 @@ module.exports = {
       },
     ],
   },
+  postcss: [
+    require('postcss-cssnext')(),
+  ],
   recordsPath: path.join(__dirname, 'lib/webpack.records.json'),
   target: 'web'
 };

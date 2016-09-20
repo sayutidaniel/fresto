@@ -1,25 +1,37 @@
 import classNames from 'classnames';
 import React from 'react';
 import PageButton from '../PageButton/PageButton';
-import styles from "./Pagination.css";
+import styles from './Pagination.css';
 
 class Pagination extends React.Component {
   static get propTypes() {
     return {
+      /**
+       * Number of page to display
+       */
       max: React.PropTypes.number,
+      /**
+       * Total available pages
+       */
       length: React.PropTypes.number.isRequired,
+      /**
+       * Current page number
+       */
       value: React.PropTypes.number,
-      onChange: React.PropTypes.func
+      /**
+       * Callback fired when the page is changed
+       */
+      onChange: React.PropTypes.func,
     };
   }
-  
+
   static get defaultProps() {
     return {
       max: 3,
       value: 1,
     };
   }
-  
+
   render() {
     const {
       max,
@@ -38,27 +50,59 @@ class Pagination extends React.Component {
     const start = Math.min(Math.max(1, prevPages), Math.max(1, length - max + 1));
     const end = Math.min(Math.max(max, nextPages), length);
 
-    pages.push(<PageButton key="first" label="First" value={1} onClick={onChange} />);
-    pages.push(<PageButton key="prev" label="Prev" value={Math.max(1, value - 1)} onClick={onChange} />);
+    pages.push(
+      <PageButton
+        key="first"
+        label="First"
+        value={1}
+        onClick={onChange}
+      />
+    );
+
+    pages.push(
+      <PageButton
+        key="prev"
+        label="Prev"
+        value={Math.max(1, value - 1)}
+        onClick={onChange}
+      />
+    );
+
     if (start > 1) {
       pages.push(<PageButton key={1} value={1} onClick={onChange} />);
       if (start > 2) {
-        pages.push(<div key='prevEllipsis' className={styles.ellipsis} />);
+        pages.push(<div key="prevEllipsis" className={styles.ellipsis} />);
       }
     }
 
-    for (let page=start; page<=end; page++) {
+    for (let page = start; page <= end; page += 1) {
       pages.push(<PageButton key={page} active={page === value} value={page} onClick={onChange} />);
     }
 
     if (end < length) {
       if (end < length - 1) {
-        pages.push(<div key='nextEllipsis' className={styles.ellipsis} />);
+        pages.push(<div key="nextEllipsis" className={styles.ellipsis} />);
       }
       pages.push(<PageButton key={length} value={length} onClick={onChange} />);
     }
-    pages.push(<PageButton key="next" label="Next" value={Math.min(length, value + 1)} onClick={onChange} />);
-    pages.push(<PageButton key="last" label="Last" value={length} onClick={onChange} />);
+
+    pages.push(
+      <PageButton
+        key="next"
+        label="Next"
+        value={Math.min(length, value + 1)}
+        onClick={onChange}
+      />
+    );
+
+    pages.push(
+      <PageButton
+        key="last"
+        label="Last"
+        value={length}
+        onClick={onChange}
+      />
+    );
 
     return (
       <div className={classNames(className, styles.pagination)}>

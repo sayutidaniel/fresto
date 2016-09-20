@@ -2,18 +2,27 @@ import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import styles from './Overlay.css';
 
+/**
+ * Current usage of this component is to indicate search result loading state
+ */
 class Overlay extends React.Component {
   static propTypes() {
     return {
+      /**
+       * If true, hide this component
+       */
       hidden: React.PropTypes.bool,
     };
   }
 
   static get defaultProps() {
     return {
+      /**
+       * Set default to be hidden
+       */
       hidden: true,
     };
-  };
+  }
 
   render() {
     const transitionProps = {

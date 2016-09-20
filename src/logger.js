@@ -7,7 +7,7 @@ const logger = new winston.Logger({
       filename: './log/fresto.log',
       handleExceptions: true,
       json: true,
-      maxsize: 5242880, //5MB
+      maxsize: 5242880, // 5MB
       maxFiles: 5,
       colorize: false,
     }),

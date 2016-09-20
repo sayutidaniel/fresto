@@ -39,16 +39,17 @@ const Restaurant = new mongoose.Schema({
   timestamps: true,
   toJSON: {
     transform(doc, ret) {
-      ret.id = ret._id;
-      ret.location.coordinate = fromPointToLatLng(ret.location.coordinate);
-      delete ret._id;
-      delete ret.categoryIds;
-      delete ret.__v;
-      return ret;
+      const json = Object.assign({}, ret);
+      json.id = json._id; // eslint-disable-line no-underscore-dangle
+      json.location.coordinate = fromPointToLatLng(json.location.coordinate);
+      delete json.__v; // eslint-disable-line no-underscore-dangle
+      delete json._id; // eslint-disable-line no-underscore-dangle
+      delete json.categoryIds;
+      return json;
     },
   },
 });
 
-Restaurant.index({'location.coordinate': '2dsphere'});
+Restaurant.index({ 'location.coordinate': '2dsphere' });
 
 export default db.model('Restaurant', Restaurant);

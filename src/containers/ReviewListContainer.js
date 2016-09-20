@@ -3,6 +3,12 @@ import { connect } from 'react-redux';
 import ReviewList from '../components/ReviewList/ReviewList';
 
 class ReviewListContainer extends React.Component {
+  static get propTypes() {
+    return {
+      reviews: React.PropTypes.array,
+    };
+  }
+
   render() {
     return (
       <ReviewList reviews={this.props.reviews} />

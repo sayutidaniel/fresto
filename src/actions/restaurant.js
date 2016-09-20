@@ -21,7 +21,7 @@ function fetchRestaurant(id) {
   return (dispatch) => {
     dispatch(requestRestaurant());
 
-    return get(`restaurant/${id}`).then((json) => dispatch(receiveRestaurant(json)));
+    return get(`restaurant/${id}`).then(json => dispatch(receiveRestaurant(json)));
   };
 }
 
@@ -34,7 +34,7 @@ export function findRestaurant(id) {
     if (shouldFetchRestaurant(getState())) {
       return dispatch(fetchRestaurant(id));
     }
-    
+
     return Promise.resolve();
   };
 }

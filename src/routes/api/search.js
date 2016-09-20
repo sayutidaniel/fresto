@@ -4,13 +4,12 @@ import Category from '../../models/Category';
 import Restaurant from '../../models/Restaurant';
 import Search from '../../models/Search';
 
-const router = express.Router();
+const router = new express.Router();
 
 router.get('/', (req, res) => {
   const limit = 20;
   const query = {
     category_filter: `restaurants${req.query.category ? `,${req.query.category}` : ''}`,
-    cll: req.query.coordinate,
     limit,
     location: req.query.location,
     offset: ((req.query.page || 1) - 1) * limit,
@@ -18,9 +17,13 @@ router.get('/', (req, res) => {
     term: req.query.term,
   };
 
+  if (req.query.coordinate) {
+    query.cll = req.query.coordinate;
+  }
+
   Search.findOne({
     categoryIds: {
-      $in: query.category_filter.split(',')
+      $in: query.category_filter.split(','),
     },
     coordinate: query.cll,
     limit: query.limit,
@@ -30,7 +33,7 @@ router.get('/', (req, res) => {
     term: query.term,
     createdAt: {
       // cache for 30 days
-      $gt: Date.now() - 2592000000
+      $gt: Date.now() - 2592000000,
     },
   })
     .then((searchResult) => {
@@ -39,23 +42,24 @@ router.get('/', (req, res) => {
       }
       return searchResult;
     })
-    .then((searchResult) => {
-      return Restaurant.find({
+    .then(searchResult =>
+      Restaurant.find({
         _id: {
           $in: searchResult.result.restaurantIds,
         },
       })
-        .then((restaurants) => {
-          return Promise.all(restaurants.map((restaurant) => {
-            return Category.find({
+        .then(restaurants =>
+          Promise.all(restaurants.map(restaurant =>
+            Category.find({
               alias: {
                 $in: restaurant.categoryIds,
               },
-            }).then((categories) => Object.assign(restaurant.toJSON(), {
-              categories: categories.map((category) => category.toJSON()),
-            }));
-          }));
-        })
+            })
+              .then(categories => Object.assign(restaurant.toJSON(), {
+                categories: categories.map(category => category.toJSON()),
+              }))
+          ))
+        )
         .then((restaurants) => {
           const searchJson = searchResult.toJSON();
 
@@ -64,10 +68,10 @@ router.get('/', (req, res) => {
             total: searchJson.result.total,
             restaurants,
           };
-        });
-    })
-    .then((data) => res.send(data))
-    .catch((err) => res.status(err.statusCode).send(err.data));
+        })
+    )
+    .then(data => res.send(data))
+    .catch(err => res.status(err.statusCode || 500).send(err.data));
 });
 
 export default router;

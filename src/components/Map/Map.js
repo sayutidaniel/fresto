@@ -5,7 +5,23 @@ import { createMarkerOverlay } from '../../helpers/googleMap';
 class Map extends React.Component {
   static get contextTypes() {
     return {
+      /**
+       * Loaded google map library
+       */
       google: React.PropTypes.object.isRequired,
+    };
+  }
+
+  static get propTypes() {
+    return {
+      /**
+       * Center position of map consisting longitude and latitude
+       */
+      center: React.PropTypes.object,
+      /**
+       * A list of markers geo location
+       */
+      items: React.PropTypes.array,
     };
   }
 
@@ -28,6 +44,18 @@ class Map extends React.Component {
     this.renderMarkerOverlay();
   }
 
+  /**
+   * Store a reference of map DOM element
+   *
+   * @param {HTMLElement} node
+   */
+  setMapNode(node) {
+    this.mapNode = node;
+  }
+
+  /**
+   * Initialize and render google map
+   */
   initMap() {
     const google = this.context.google;
     this.map = new google.maps.Map(this.mapNode, {
@@ -44,13 +72,19 @@ class Map extends React.Component {
     });
     this.renderMap();
   }
-  
+
+  /**
+   * Initialize overlay view for drawing custom markers and render them to the map
+   */
   initMarkerOverlay() {
     const google = this.context.google;
     this.markerOverlay = createMarkerOverlay(google);
     this.renderMarkerOverlay();
   }
 
+  /**
+   * Render a map to center bounds of markers
+   */
   renderMap() {
     if (!this.props.items.length) return;
 
@@ -64,21 +98,18 @@ class Map extends React.Component {
     });
     this.map.fitBounds(bounds);
   }
-  
+
+  /**
+   * Render all of markers to map overlay view
+   */
   renderMarkerOverlay() {
-    const coordinates = this.props.items.map((item) => {
-      return {
-        lat: item.location.coordinate.lat,
-        lng: item.location.coordinate.lng,
-      };
-    });
+    const coordinates = this.props.items.map(item => ({
+      lat: item.location.coordinate.lat,
+      lng: item.location.coordinate.lng,
+    }));
     this.markerOverlay.setMap(null);
     this.markerOverlay.setCoordinates(coordinates);
     this.markerOverlay.setMap(this.map);
-  }
-
-  setMapNode(node) {
-    this.mapNode = node;
   }
 
   render() {

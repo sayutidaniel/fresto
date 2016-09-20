@@ -5,10 +5,22 @@ import Style from './Pushpin.css';
 class Pushpin extends React.Component {
   static get propTypes() {
     return {
+      /**
+       * Bottom scroll position to unpin
+       */
       bottom: React.PropTypes.number,
+      /**
+       * A react element to be pinned
+       */
       children: React.PropTypes.element.isRequired,
+      /**
+       * A given offset position to pinned element
+       */
       offset: React.PropTypes.number,
-      top: React.PropTypes.number
+      /**
+       * Top scroll position to pin
+       */
+      top: React.PropTypes.number,
     };
   }
 
@@ -16,14 +28,17 @@ class Pushpin extends React.Component {
     return {
       bottom: Infinity,
       offset: 0,
-      top: null
+      top: null,
     };
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      pinned: false
+      /**
+       * An indicator of pinned element
+       */
+      pinned: false,
     };
     this.handleScroll = this.handleScroll.bind(this);
     this.setChildNode = this.setChildNode.bind(this);
@@ -39,6 +54,18 @@ class Pushpin extends React.Component {
     parentNode.removeEventListener('scroll', this.handleScroll);
   }
 
+  /**
+   * Store a reference of pinned DOM element
+   *
+   * @param {ReactElement} component
+   */
+  setChildNode(component) {
+    if (component) this.childNode = ReactDOM.findDOMNode(component);
+  }
+
+  /**
+   * Handler to pin/unpin an element on certain position
+   */
   handleScroll() {
     const childRect = this.childNode.getBoundingClientRect();
     const parentNode = this.childNode.parentNode;
@@ -48,11 +75,7 @@ class Pushpin extends React.Component {
     const scroll = parentNode.scrollTop;
 
     this.setState({ pinned: scroll > top && scroll <= bottom });
-  };
-
-  setChildNode(component) {
-    if (component) this.childNode = ReactDOM.findDOMNode(component);
-  };
+  }
 
   render() {
     const {

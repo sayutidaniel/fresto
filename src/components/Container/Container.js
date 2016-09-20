@@ -5,12 +5,18 @@ import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 class Container extends React.Component {
   static get propTypes() {
     return {
+      /**
+       * If true, it will span the entire width of viewport
+       */
       fluid: React.PropTypes.bool,
     };
   }
 
   static get defaultProps() {
     return {
+      /**
+       * Set default to fixed width
+       */
       fluid: false,
     };
   }

@@ -10,11 +10,13 @@ class SearchResultItem extends React.Component {
     return {
       id: React.PropTypes.string.isRequired,
       categories: React.PropTypes.array,
+      displayPhone: React.PropTypes.string,
       imageUrl: React.PropTypes.string,
       name: React.PropTypes.string.isRequired,
       location: React.PropTypes.shape({
         displayAddress: React.PropTypes.string,
       }),
+      rating: React.PropTypes.number,
       ratingImgUrl: React.PropTypes.string,
       reviewCount: React.PropTypes.number,
     };
@@ -25,11 +27,19 @@ class SearchResultItem extends React.Component {
       <Col stripPadding xs={12}>
         <Link className={styles.container} to={`/restaurant/${this.props.id}`}>
           <div className={styles.sectionLeft}>
-            <img className={styles.businessPhoto} src={this.props.imageUrl} />
+            <img
+              alt={this.props.name}
+              className={styles.businessPhoto}
+              src={this.props.imageUrl}
+            />
           </div>
           <div className={styles.sectionRight}>
             <div className={styles.businessName}>{this.props.name}</div>
-            {this.props.categories && <div className={styles.categories}>{this.props.categories.map((category) => category.title)}</div>}
+            {this.props.categories && (
+              <div className={styles.categories}>
+                {this.props.categories.map(category => category.title)}
+              </div>
+            )}
             <div className={styles.address}>{this.props.location.displayAddress}</div>
             {this.props.displayPhone && (
               <div className={styles.phone}>
@@ -39,7 +49,7 @@ class SearchResultItem extends React.Component {
               </div>
             )}
             <div className={styles.rating}>
-              <img src={this.props.ratingImgUrl} />
+              <img alt={this.props.rating} src={this.props.ratingImgUrl} />
               <span> · </span>
               <span>{this.props.reviewCount} reviews</span>
             </div>

@@ -5,10 +5,22 @@ import styles from './PageButton.css';
 class PageButton extends React.Component {
   static get propTypes() {
     return {
+      /**
+       * Highlight the `PageButton` as active
+       */
       active: React.PropTypes.bool,
+      /**
+       * Display label of the page button instead of its value
+       */
       label: React.PropTypes.string,
+      /**
+       * Value passed to the `onClick` handler
+       */
       value: React.PropTypes.number.isRequired,
-      onClick: React.PropTypes.func
+      /**
+       * Callback fired when the page button is clicked
+       */
+      onClick: React.PropTypes.func,
     };
   }
 
@@ -23,12 +35,13 @@ class PageButton extends React.Component {
 
   render() {
     return (
-      <div
-        className={classNames(styles.pageButton, {[styles.active]: this.props.active})}
+      <button
+        className={classNames(styles.pageButton, { [styles.active]: this.props.active })}
+        type="button"
         onClick={this.handleClick}
       >
         {this.props.label || this.props.value}
-      </div>
+      </button>
     );
   }
 }

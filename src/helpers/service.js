@@ -3,7 +3,7 @@ import fetch from 'isomorphic-fetch';
 const API_VERSION = 'v1';
 const API_ENDPOINT = `http://localhost:3000/api/${API_VERSION}`;
 const headers = {
-  'Accept': 'application/json',
+  Accept: 'application/json',
   'Content-Type': 'application/json',
 };
 

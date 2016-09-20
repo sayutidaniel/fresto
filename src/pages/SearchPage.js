@@ -21,9 +21,13 @@ class SearchPage extends React.Component {
     };
   }
 
-  getChildContext() {
+  static get propTypes() {
     return {
-      google: this.state.google,
+      location: React.PropTypes.shape({
+        query: React.PropTypes.objectOf(React.PropTypes.string),
+      }),
+      router: React.PropTypes.object,
+      search: React.PropTypes.func,
     };
   }
 
@@ -36,9 +40,15 @@ class SearchPage extends React.Component {
     this.setHeaderNode = this.setHeaderNode.bind(this);
   }
 
+  getChildContext() {
+    return {
+      google: this.state.google,
+    };
+  }
+
   componentDidMount() {
     loadGoogleMapAPI().then(this.initGoogleMapAPI);
-    
+
     this.unlisten = this.props.router.listen((location) => {
       if (location.pathname !== '/search') return;
 
@@ -57,14 +67,14 @@ class SearchPage extends React.Component {
     this.unlisten();
   }
 
+  setHeaderNode(component) {
+    if (component) this.headerNode = ReactDOM.findDOMNode(component);
+  }
+
   initGoogleMapAPI(google) {
     this.setState({
       google,
     });
-  }
-
-  setHeaderNode(component) {
-    if (component) this.headerNode = ReactDOM.findDOMNode(component);
   }
 
   render() {
@@ -88,7 +98,7 @@ class SearchPage extends React.Component {
                 <SearchResultContainer query={query} />
               </Sidebar>
             </Col>
-            <Col stripPadding xsHidden={true} smHidden={true} md={6} lg={7}>
+            <Col stripPadding xsHidden smHidden md={6} lg={7}>
               {this.state.google && <MapContainer query={query} />}
             </Col>
           </Row>

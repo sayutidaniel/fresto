@@ -17,9 +17,14 @@ class RestaurantPage extends React.Component {
     };
   }
 
-  getChildContext() {
+  static get propTypes() {
     return {
-      google: this.state.google,
+      findRestaurant: React.PropTypes.func,
+      location: React.PropTypes.shape({
+        query: React.PropTypes.objectOf(React.PropTypes.string),
+      }),
+      router: React.PropTypes.object,
+      params: React.PropTypes.objectOf(React.PropTypes.string),
     };
   }
 
@@ -29,6 +34,12 @@ class RestaurantPage extends React.Component {
       google: null,
     };
     this.initGoogleMapAPI = this.initGoogleMapAPI.bind(this);
+  }
+
+  getChildContext() {
+    return {
+      google: this.state.google,
+    };
   }
 
   componentDidMount() {

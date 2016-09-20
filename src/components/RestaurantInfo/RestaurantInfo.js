@@ -6,31 +6,38 @@ import Col from '../../components/Col/Col';
 import Container from '../../components/Container/Container';
 import Row from '../../components/Row/Row';
 import styles from './RestaurantInfo.css';
-import { getGoogleStaticMapUrl } from '../../helpers/googleMap';
 
 class RestaurantInfo extends React.Component {
+  static get propTypes() {
+    return {
+      categories: React.PropTypes.arrayOf({
+        title: React.PropTypes.string,
+      }),
+      displayPhone: React.PropTypes.string,
+      imageUrl: React.PropTypes.string,
+      location: React.PropTypes.shape({
+        displayAddress: React.PropTypes.string,
+      }),
+      name: React.PropTypes.string,
+      rating: React.PropTypes.number,
+      ratingImgUrlLarge: React.PropTypes.string,
+      reviewCount: React.PropTypes.number,
+    };
+  }
+
   render() {
-    const staticMapUrl = getGoogleStaticMapUrl({
-      height: 300,
-      width: 600,
-      marker: {
-        color: 'fff',
-        label: 'Hello',
-        location: '40.714728,-73.998672',
-      },
-    });
-    
     return (
       <Container className={styles.container}>
         <Row>
           <Col className={styles.sectionLeft} xs={12} md={4} lg={3}>
             <img
-              className={classNames(styles.thumbnail, Bootstrap['thumbnail'])}
+              alt={this.props.name}
+              className={classNames(styles.thumbnail, Bootstrap.thumbnail)}
               src={this.props.imageUrl && this.props.imageUrl.replace(/ms\.jpg$/, 'ls.jpg')}
             />
             <Col mdHidden lgHidden>
               <div className={styles.smallRating}>
-                <img src={this.props.ratingImgUrlLarge} />
+                <img alt={this.props.rating} src={this.props.ratingImgUrlLarge} />
                 <div className={styles.smallReview}>{this.props.reviewCount} reviews</div>
               </div>
             </Col>
@@ -38,14 +45,20 @@ class RestaurantInfo extends React.Component {
           <Col className={styles.sectionRight} xs={12} md={8} lg={9}>
             <Col xsHidden smHidden>
               <div className={styles.rating}>
-                <img src={this.props.ratingImgUrlLarge} />
+                <img alt={this.props.rating} src={this.props.ratingImgUrlLarge} />
                 <span> · </span>
                 <span>{this.props.reviewCount} reviews</span>
               </div>
             </Col>
             <div className={styles.businessName}>{this.props.name}</div>
-            {this.props.categories && <div className={styles.categories}>{this.props.categories.map((category) => category.title).join(', ')}</div>}
-            <div className={styles.address}>{this.props.location && this.props.location.displayAddress}</div>
+            {this.props.categories && (
+              <div className={styles.categories}>
+                {this.props.categories.map(category => category.title).join(', ')}
+              </div>
+            )}
+            <div className={styles.address}>
+              {this.props.location && this.props.location.displayAddress}
+            </div>
             <div className={styles.phone}>
               <span className={classNames(Bootstrap.glyphicon, Bootstrap['glyphicon-earphone'])} />
               {' '}
@@ -58,6 +71,4 @@ class RestaurantInfo extends React.Component {
   }
 }
 
-export default connect((state) => {
-  return state.restaurant.item || {};
-})(RestaurantInfo);
+export default connect(state => (state.restaurant.item || {}))(RestaurantInfo);

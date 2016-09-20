@@ -3,6 +3,9 @@ import db from '../db';
 import { GeoJSON } from './types';
 import { fromPointToLatLng } from './util';
 
+/**
+ * Model definition for search
+ */
 const Search = new mongoose.Schema({
   categoryIds: [String],
   limit: Number,
@@ -24,18 +27,20 @@ const Search = new mongoose.Schema({
   timestamps: true,
   toJSON: {
     transform(doc, ret) {
-      ret.id = ret._id;
-      ret.result.region.center = fromPointToLatLng(ret.result.region.center);
-      ret.result.region.span = fromPointToLatLng({ coordinates: ret.result.region.span });
-      delete ret._id;
-      delete ret.__v;
-      return ret;
+      const json = Object.assign({}, ret);
+      json.id = json._id; // eslint-disable-line no-underscore-dangle
+      json.result.region.center = fromPointToLatLng(json.result.region.center);
+      json.result.region.span = fromPointToLatLng({ coordinates: json.result.region.span });
+      delete json._id; // eslint-disable-line no-underscore-dangle
+      delete json.__v; // eslint-disable-line no-underscore-dangle
+      return json;
     },
   },
 });
 
-Search.index({categoryIds: 1});
-Search.index({createdAt: 1});
-Search.index({sort: 1});
+// TODO: optimize index, consider using text index
+Search.index({ categoryIds: 1 });
+Search.index({ createdAt: 1 });
+Search.index({ sort: 1 });
 
 export default db.model('Search', Search);

@@ -12,18 +12,18 @@ class HomePage extends React.Component {
     };
   }
 
-  getChildContext() {
-    return {
-      google: this.state.google,
-    };
-  }
-
   constructor(props) {
     super(props);
     this.state = {
       google: null,
     };
     this.initGoogleMapAPI = this.initGoogleMapAPI.bind(this);
+  }
+
+  getChildContext() {
+    return {
+      google: this.state.google,
+    };
   }
 
   componentDidMount() {
@@ -47,7 +47,7 @@ class HomePage extends React.Component {
               "One cannot think well, love well, sleep well, if one has not dined well."<br />
               <em><small>― Virginia Woolf, A Room of One's Own</small></em>
             </p>
-            <SearchBarContainer query={this.props.query} />
+            <SearchBarContainer />
           </Container>
         </div>
       </div>

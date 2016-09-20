@@ -9,11 +9,13 @@ class Select extends React.Component {
     const className = classNames(
       Bootstrap['form-control'],
       styles.formControl,
-      this.props.className,
+      this.props.className
     );
     delete props.className;
 
-    return <select className={className} {...props} />
+    return (
+      <select className={className} {...props} />
+    );
   }
 }
 

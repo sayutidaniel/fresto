@@ -1,0 +1,16 @@
+extends: airbnb
+plugins:
+  - react
+  - jsx-a11y
+  - import
+rules:
+  class-methods-use-this: 1
+  no-mixed-operators: 1
+  no-unused-expressions: [2, allowShortCircuit: true]
+  import/extensions: [2, css: always]
+  import/prefer-default-export: 1
+  react/require-extension: 0
+  react/jsx-filename-extension: 0
+  react/no-find-dom-node: 1 # TODO: read more https://github.com/yannickcr/eslint-plugin-react/issues/678
+  react/prefer-stateless-function: 0
+  react/prop-types: [2, ignore: [children, className]]

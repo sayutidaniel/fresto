@@ -1,10 +1,10 @@
 {
-  "GOOGLE_MAP_API_KEY": "",
-  "MONGODB_URI": "",
+  "GOOGLE_MAP_API_KEY": "YOUR_GOOGLE_MAP_API_KEY",
+  "MONGODB_URI": "mongodb://<dbuser>:<dbpassword>@<host>:<port>/<dbname>",
   "YELP": {
-    "CONSUMER_KEY": "",
-    "CONSUMER_SECRET": "",
-    "TOKEN": "",
-    "TOKEN_SECRET": ""
+    "CONSUMER_KEY": "YOUR_YELP_API_CONSUMER_KEY",
+    "CONSUMER_SECRET": "YOUR_YELP_API_CONSUMER_SECRET",
+    "TOKEN": "YOUR_YELP_API_TOKEN",
+    "TOKEN_SECRET": "YOUR_YELP_TOKEN_SECRET"
   }
 }

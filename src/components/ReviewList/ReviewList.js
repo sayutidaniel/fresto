@@ -20,11 +20,9 @@ class ReviewList extends React.Component {
         <Row>
           <Col xs={12}>
             <div className={styles.title}>{reviews.length} Reviews</div>
-            {reviews.map((review, index) => {
-              return (
-                <Review key={index} {...review} />
-              );
-            })}
+            {reviews.map((review, index) => (
+              <Review key={index} {...review} />
+            ))}
           </Col>
         </Row>
       </Container>

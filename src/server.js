@@ -1,48 +1,35 @@
 import express from 'express';
-import fs from 'fs';
 import path from 'path';
 import morgan from 'morgan';
+import webpack from 'webpack'; // eslint-disable-line import/no-extraneous-dependencies
 import React from 'react';
 import ReactDOM from 'react-dom/server';
+import WebpackDevServer from 'webpack-dev-server'; // eslint-disable-line import/no-extraneous-dependencies
 import { Provider } from 'react-redux';
 import { match, RouterContext } from 'react-router';
+import assetsProvider from './middleware/assetsProvider';
 import api from './routes/api';
 import configureStore from './configureStore';
 import logger from './logger';
 import routes from './routes/web';
+import webpackConfig from '../webpack.client';
 import Html from './templates/Html';
-
-import webpack from 'webpack';
-import config from '../webpack.client';
-import WebpackDevServer from 'webpack-dev-server';
 
 let server;
 if (process.env.NODE_ENV === 'development') {
-  server = new WebpackDevServer(webpack(config), {
+  server = new WebpackDevServer(webpack(webpackConfig), {
     contentBase: false,
-    publicPath: config.output.publicPath,
+    publicPath: webpackConfig.output.publicPath,
     serverSideRender: true,
   });
-  server.use((req, res, next) => {
-    const stats = res.locals.webpackStats.toJson();
-    const assetsByChunkName = stats.assetsByChunkName;
-    const assets = Object.keys(assetsByChunkName).reduce((assets, name) => assets.concat(assetsByChunkName[name]), []);
-    res.locals.assets = assets.map(asset => stats.publicPath + asset);
-    next();
-  });
-  server.use(morgan('dev', {stream: logger.stream}));
+  server.use(morgan('dev', { stream: logger.stream }));
 } else {
   server = express();
-  server.use((req, res, next) => {
-    fs.readFile(path.join(__dirname, 'webpack.assets.json'), (err, assets) => {
-      res.locals.assets = JSON.parse(assets);
-      next();
-    });
-  });
-  server.use(morgan('combined', {stream: logger.stream}));
+  server.use(morgan('combined', { stream: logger.stream }));
   server.use('/assets', express.static(path.join(__dirname, 'assets')));
 }
 
+server.use(assetsProvider);
 server.use('/api/v1', api);
 server.use((req, res) => {
   const assets = res.locals.assets;

@@ -8,8 +8,17 @@ import styles from './SearchBar.css';
 class SearchBar extends React.Component {
   static get propTypes() {
     return {
+      /**
+       * Current location name to be displayed in input element
+       */
       location: React.PropTypes.string,
+      /**
+       * Current search term to be displayed in input element
+       */
       term: React.PropTypes.string,
+      /**
+       * Callback fired when search button is clicked
+       */
       onSearch: React.PropTypes.func,
     };
   }
@@ -24,10 +33,16 @@ class SearchBar extends React.Component {
   constructor(props) {
     super();
     this.state = {
+      /**
+       * Store selected location, used to pass into `onSearch` callback as parameter
+       */
       location: {
         name: props.location,
         coordinate: null,
       },
+      /**
+       * Controlled search term input value
+       */
       term: props.term,
     };
     this.handleChangeTerm = this.handleChangeTerm.bind(this);
@@ -35,16 +50,29 @@ class SearchBar extends React.Component {
     this.handleSearchPlace = this.handleSearchPlace.bind(this);
   }
 
+  /**
+   * Handler to update search term input value
+   *
+   * @param {Event} event
+   */
   handleChangeTerm(event) {
-    this.setState({term: event.target.value});
+    this.setState({ term: event.target.value });
   }
 
+  /**
+   * Handler to store selected location
+   *
+   * @param location
+   */
   handleSearchPlace(location) {
-    this.setState({location});
+    this.setState({ location });
   }
 
+  /**
+   * Handler for search button click event, it will fire `onSearch` callback
+   */
   handleSearch() {
-    const {term, location} = this.state;
+    const { term, location } = this.state;
     this.props.onSearch && this.props.onSearch(term, location);
   }
 

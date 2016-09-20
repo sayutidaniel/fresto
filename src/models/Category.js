@@ -8,13 +8,14 @@ const Category = new mongoose.Schema({
 }, {
   toJSON: {
     transform(doc, ret) {
-      delete ret._id;
-      delete ret.__v;
-      return ret;
+      const json = Object.assign({}, ret);
+      delete json.__v; // eslint-disable-line no-underscore-dangle
+      delete json._id; // eslint-disable-line no-underscore-dangle
+      return json;
     },
   },
 });
 
-Category.index({alias: 1});
+Category.index({ alias: 1 });
 
 export default db.model('Category', Category);

@@ -34,11 +34,16 @@ function get(path, query) {
       if (err) {
         return reject(err);
       }
-      resolve(JSON.parse(data));
+      return resolve(JSON.parse(data));
     });
   });
 }
 
+/**
+ * serialize yelp search API result to our Search model structure
+ *
+ * @see Search
+ */
 function serializeSearch(query, searchResult) {
   return {
     categoryIds: query.category_filter.split(','),
@@ -59,7 +64,7 @@ function serializeSearch(query, searchResult) {
           searchResult.region.span.latitude_delta,
         ],
       },
-      restaurantIds: searchResult.businesses.map((business) => business.id),
+      restaurantIds: searchResult.businesses.map(business => business.id),
       total: searchResult.total,
     },
     sort: query.sort,
@@ -67,10 +72,14 @@ function serializeSearch(query, searchResult) {
   };
 }
 
+/**
+ * serialize yelp business API result to our Restaurant model structure
+ * @see Restaurant
+ */
 function serializeRestaurant(business) {
   return {
     _id: business.id,
-    categoryIds: business.categories.map((category) => category[1]),
+    categoryIds: business.categories.map(category => category[1]),
     displayPhone: business.display_phone,
     imageUrl: business.image_url,
     location: {
@@ -89,39 +98,54 @@ function serializeRestaurant(business) {
     ratingImgUrlLarge: business.rating_img_url_large,
     ratingImgUrlSmall: business.rating_img_url_small,
     reviewCount: business.review_count,
-    reviews: business.reviews && business.reviews.map((review) => {
-      return {
-        excerpt: review.excerpt,
-        rating: review.rating,
-        ratingImgUrl: review.rating_img_url,
-        ratingImgUrlLarge: review.rating_img_url_large,
-        ratingImgUrlSmall: review.rating_img_url_small,
-        timeCreated: review.time_created,
-        user: {
-          imageUrl: review.user.image_url,
-          name: review.user.name,
-        },
-      };
-    }),
+    reviews: business.reviews && business.reviews.map(review => ({
+      excerpt: review.excerpt,
+      rating: review.rating,
+      ratingImgUrl: review.rating_img_url,
+      ratingImgUrlLarge: review.rating_img_url_large,
+      ratingImgUrlSmall: review.rating_img_url_small,
+      timeCreated: review.time_created,
+      user: {
+        imageUrl: review.user.image_url,
+        name: review.user.name,
+      },
+    })),
     snippetImageUrl: business.snippet_image_url,
     snippetText: business.snippet_text,
   };
 }
 
+/**
+ * fetch available restaurants from yelp API and store the search query and results,
+ * we only store business id of the results for references and always try to insert
+ * new restaurants for specific information
+ *
+ * TODO: implement better way to avoid duplicate key error on insertion
+ */
 export function searchRestaurant(query) {
   return get('search', query)
-    .then((searchResult) => {
-      return Promise.all([
+    .then(searchResult =>
+      Promise.all([
         Search.create(serializeSearch(query, searchResult)),
-        Restaurant.create(searchResult.businesses.map((business) => serializeRestaurant(business)))
-          .catch((err) => console.error(err.stack))
+        Restaurant.create(searchResult.businesses.map(business => serializeRestaurant(business)))
+          .catch(err => console.error(err.stack)),
         // log duplicate key error
-      ]);
-    })
-    .then((results) => results[0])
+      ])
+    )
+    .then(results => results[0]);
 }
 
+/**
+ * fetch restaurants data from yelp API and do an upsert to ensure we have the right data
+ */
 export function findRestaurant(_id) {
   return get(`business/${encodeURIComponent(_id)}`)
-    .then((business) => Restaurant.findOneAndUpdate({_id}, {$set: serializeRestaurant(business)}, {new: true, upsert: true}));
+    .then(business => Restaurant.findOneAndUpdate(
+      { _id },
+      { $set: serializeRestaurant(business) },
+      {
+        new: true,
+        upsert: true,
+      }
+    ));
 }

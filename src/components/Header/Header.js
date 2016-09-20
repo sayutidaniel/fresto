@@ -9,14 +9,31 @@ import styles from './Header.css';
 class Header extends React.Component {
   static get propTypes() {
     return {
+      /**
+       * If true, it will span the entire width of viewport
+       */
       fluid: React.PropTypes.bool,
+      /**
+       * A query string to pass in coordinate, term, and location to `SearchBarContainer` component
+       * This is required, if `searchBar` is true
+       */
+      query: React.PropTypes.objectOf(React.PropTypes.string),
+      /**
+       * If true, display `SearchBarContainer` component
+       */
       searchBar: React.PropTypes.bool,
     };
   }
 
-  static get  defaultProps() {
+  static get defaultProps() {
     return {
+      /**
+       * Set default to fixed width
+       */
       fluid: false,
+      /**
+       * Set default to not display search bar component
+       */
       searchBar: false,
     };
   }
@@ -24,14 +41,20 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      /**
+       * An indicator of collapsed/expanded navbar in mobile view
+       */
       collapse: false,
     };
     this.handleClickBurger = this.handleClickBurger.bind(this);
   }
 
+  /**
+   * Handler of burger button click event to toggle navbar in mobile view
+   */
   handleClickBurger() {
     this.setState({ collapse: !this.state.collapse });
-  };
+  }
 
   render() {
     return (
@@ -48,7 +71,7 @@ class Header extends React.Component {
               <Link className={classNames(styles.brand, Bootstrap['navbar-brand'])} to="/">Fresto</Link>
             </div>
 
-            <div className={classNames(styles.navbar, Bootstrap.collapse, Bootstrap['navbar-collapse'], {[Bootstrap.in]: this.state.collapse})}>
+            <div className={classNames(styles.navbar, Bootstrap.collapse, Bootstrap['navbar-collapse'], { [Bootstrap.in]: this.state.collapse })}>
               {this.props.searchBar && (
                 <ul className={classNames(Bootstrap.nav, Bootstrap['navbar-nav'], Bootstrap['navbar-left'])}>
                   <li>
