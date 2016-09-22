@@ -8,7 +8,7 @@ function assetsProvider(req, res, next) {
     const assetsByChunkName = stats.assetsByChunkName;
     res.locals.assets = Object.keys(assetsByChunkName) // eslint-disable-line no-param-reassign
       .reduce((assets, name) => (
-        assets.concat(stats.publicPath + assetsByChunkName[name])
+        assets.concat(assetsByChunkName[name].map(asset => stats.publicPath + asset))
       ), []);
     next();
   } else {
