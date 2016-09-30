@@ -6,8 +6,7 @@ import { browserHistory, match, Router } from 'react-router';
 import configureStore from './configureStore';
 import routes from './routes/web';
 
-const initialState = {};
-const store = configureStore(initialState);
+const store = configureStore();
 
 match({ history: browserHistory, routes }, (error, redirectLocation, renderProps) => {
   ReactDOM.render(

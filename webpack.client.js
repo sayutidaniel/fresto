@@ -34,8 +34,9 @@ module.exports = {
       name: 'common',
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(env),
+      'process.env.API_BASE_URL': JSON.stringify(config.get('API_BASE_URL')),
       'process.env.GOOGLE_MAP_API_KEY': JSON.stringify(config.get('GOOGLE_MAP_API_KEY')),
+      'process.env.NODE_ENV': JSON.stringify(env),
     }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.ContextReplacementPlugin(/moment\/locale$/, /\.\/(en|id)$/, false),

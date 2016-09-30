@@ -11,7 +11,7 @@ import Row from '../components/Row/Row';
 import SearchFilterBarContainer from '../containers/SearchFilterBarContainer';
 import SearchResultContainer from '../containers/SearchResultContainer';
 import Sidebar from '../components/Sidebar/Sidebar';
-import { search } from '../actions/search';
+import { searchRestaurants } from '../actions/search';
 import { loadGoogleMapAPI } from '../helpers/googleMap';
 
 class SearchPage extends React.Component {
@@ -27,7 +27,7 @@ class SearchPage extends React.Component {
         query: React.PropTypes.objectOf(React.PropTypes.string),
       }),
       router: React.PropTypes.object,
-      search: React.PropTypes.func,
+      searchRestaurants: React.PropTypes.func,
     };
   }
 
@@ -53,7 +53,7 @@ class SearchPage extends React.Component {
       if (location.pathname !== '/search') return;
 
       const query = location.query;
-      this.props.search(query.term, {
+      this.props.searchRestaurants(query.term, {
         name: query.location,
         coordinate: query.coordinate,
       }, {
@@ -109,5 +109,5 @@ class SearchPage extends React.Component {
 }
 
 export default withRouter(
-  connect(null, { search })(SearchPage)
+  connect(null, { searchRestaurants })(SearchPage)
 );

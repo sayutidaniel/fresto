@@ -1,27 +1,37 @@
 import { get } from '../helpers/service';
 import {
-  REQUEST_RESTAURANT,
-  RECEIVE_RESTAURANT,
+  FIND_RESTAURANT_REQUEST,
+  FIND_RESTAURANT_SUCCESS,
+  FIND_RESTAURANT_ERROR,
 } from '../constants/restaurant';
 
-function requestRestaurant() {
+function requestFindRestaurant() {
   return {
-    type: REQUEST_RESTAURANT,
+    type: FIND_RESTAURANT_REQUEST,
   };
 }
 
-function receiveRestaurant(restaurant) {
+function successFindRestaurant(restaurant) {
   return {
-    type: RECEIVE_RESTAURANT,
+    type: FIND_RESTAURANT_SUCCESS,
     restaurant,
+  };
+}
+
+function errorFindRestaurant(message) {
+  return {
+    type: FIND_RESTAURANT_ERROR,
+    message,
   };
 }
 
 function fetchRestaurant(id) {
   return (dispatch) => {
-    dispatch(requestRestaurant());
+    dispatch(requestFindRestaurant());
 
-    return get(`restaurant/${id}`).then(json => dispatch(receiveRestaurant(json)));
+    return get(`restaurant/${id}`)
+      .then(restaurant => dispatch(successFindRestaurant(restaurant)))
+      .catch(message => dispatch(errorFindRestaurant(message)));
   };
 }
 

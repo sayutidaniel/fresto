@@ -1,10 +1,11 @@
 import {
-  REQUEST_SEARCH,
-  RECEIVE_SEARCH,
-  RESET_SEARCH,
+  SEARCH_RESTAURANT_REQUEST,
+  SEARCH_RESTAURANT_SUCCESS,
+  SEARCH_RESTAURANT_ERROR,
 } from '../constants/search';
 
 const initialState = {
+  errorMessage: '',
   isFetching: false,
   items: [],
   center: null,
@@ -13,19 +14,23 @@ const initialState = {
 
 function search(state = initialState, action) {
   switch (action.type) {
-    case REQUEST_SEARCH:
+    case SEARCH_RESTAURANT_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
       });
-    case RECEIVE_SEARCH:
+    case SEARCH_RESTAURANT_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         items: action.items,
         center: action.center,
         total: action.total,
       });
-    case RESET_SEARCH:
-      return initialState;
+    case SEARCH_RESTAURANT_ERROR:
+      return Object.assign({}, state, {
+        errorMessage: action.message,
+        isFetching: false,
+        items: [],
+      });
     default:
       return state;
   }

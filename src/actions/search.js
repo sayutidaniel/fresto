@@ -1,20 +1,20 @@
 import qs from 'querystring';
 import { get } from '../helpers/service';
 import {
-  REQUEST_SEARCH,
-  RECEIVE_SEARCH,
-  RESET_SEARCH,
+  SEARCH_RESTAURANT_REQUEST,
+  SEARCH_RESTAURANT_SUCCESS,
+  SEARCH_RESTAURANT_ERROR,
 } from '../constants/search';
 
-function requestSearch() {
+function requestSearchRestaurants() {
   return {
-    type: REQUEST_SEARCH,
+    type: SEARCH_RESTAURANT_REQUEST,
   };
 }
 
-function receiveSearch(json) {
+function receiveSearchRestaurants(json) {
   return {
-    type: RECEIVE_SEARCH,
+    type: SEARCH_RESTAURANT_SUCCESS,
     items: json.restaurants,
     center: {
       lat: json.region.center.lat,
@@ -24,15 +24,16 @@ function receiveSearch(json) {
   };
 }
 
-function resetSearch() {
+function errorSearchRestaurants(message) {
   return {
-    type: RESET_SEARCH,
+    type: SEARCH_RESTAURANT_ERROR,
+    message,
   };
 }
 
-function fetchSearch(term, location, filter) {
+function fetchSearchRestaurants(term, location, filter) {
   return (dispatch) => {
-    dispatch(requestSearch());
+    dispatch(requestSearchRestaurants());
 
     const params = {
       coordinate: location.coordinate,
@@ -43,19 +44,19 @@ function fetchSearch(term, location, filter) {
     };
 
     return get('search', qs.stringify(params))
-      .then(json => dispatch(receiveSearch(json)))
-      .catch(() => dispatch(resetSearch()));
+      .then(json => dispatch(receiveSearchRestaurants(json)))
+      .catch(message => dispatch(errorSearchRestaurants(message)));
   };
 }
 
-function shouldFetchSearch(state) {
+function shouldFetchSearchRestaurants(state) {
   return !state.search.isFetching;
 }
 
-export function search(term, location, filter = { page: 1, sort: 0 }) {
+export function searchRestaurants(term, location, filter = { page: 1, sort: 0 }) {
   return (dispatch, getState) => {
-    if (shouldFetchSearch(getState())) {
-      return dispatch(fetchSearch(term, location, filter));
+    if (shouldFetchSearchRestaurants(getState())) {
+      return dispatch(fetchSearchRestaurants(term, location, filter));
     }
 
     return Promise.resolve();

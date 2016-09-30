@@ -1,3 +1,4 @@
+import config from 'config';
 import express from 'express';
 import path from 'path';
 import morgan from 'morgan';
@@ -7,7 +8,7 @@ import ReactDOM from 'react-dom/server';
 import WebpackDevServer from 'webpack-dev-server'; // eslint-disable-line import/no-extraneous-dependencies
 import { Provider } from 'react-redux';
 import { match, RouterContext } from 'react-router';
-import assetsProvider from './middleware/assetsProvider';
+import assetsProvider from './middlewares/assetsProvider';
 import api from './routes/api';
 import configureStore from './configureStore';
 import logger from './logger';
@@ -30,12 +31,11 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 server.use(assetsProvider);
-server.use('/api/v1', api);
+server.use(config.get('API_BASE_URL'), api);
 server.use((req, res) => {
   const assets = res.locals.assets;
   const styles = assets.filter(asset => asset.endsWith('.css'));
   const scripts = assets.filter(asset => asset.endsWith('.js'));
-  const initialState = {};
 
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
     if (error) {
@@ -45,7 +45,7 @@ server.use((req, res) => {
     } else if (renderProps) {
       res.send(ReactDOM.renderToStaticMarkup(
         <Html title="Fresto" styles={styles} scripts={scripts}>
-          <Provider store={configureStore(initialState)}>
+          <Provider store={configureStore()}>
             <RouterContext {...renderProps} />
           </Provider>
         </Html>
