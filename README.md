@@ -1,6 +1,9 @@
 # Fresto
 Fresto is a web app for helping people to find restaurants.
 
+[![Build Status](https://travis-ci.org/sayutidaniel/fresto.svg?branch=master)](https://travis-ci.org/sayutidaniel/fresto)
+[![codecov](https://codecov.io/gh/sayutidaniel/fresto/branch/master/graph/badge.svg)](https://codecov.io/gh/sayutidaniel/fresto)
+
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
@@ -14,6 +17,7 @@ These instructions will get you a copy of the project up and running on your loc
 By default there's already a config file in `config/default.json`, it should look something like this:
 ```
 {
+  "API_BASE_URL": "YOUR_API_BASE_URL",
   "GOOGLE_MAP_API_KEY": "YOUR_GOOGLE_MAP_API_KEY",
   "MONGODB_URI": "mongodb://<dbuser>:<dbpassword>@<host>:<port>/<dbname>",
   "YELP": {
