@@ -52,6 +52,10 @@ class RestaurantPage extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    this.unlisten();
+  }
+
   initGoogleMapAPI(google) {
     this.setState({
       google,

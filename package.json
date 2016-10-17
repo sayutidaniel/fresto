@@ -57,6 +57,7 @@
     "postcss-cssnext": "^2.8.0",
     "postcss-loader": "^0.13.0",
     "react-test-renderer": "^15.3.2",
+    "rimraf": "^2.5.4",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.15.2"
